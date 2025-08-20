@@ -1,406 +1,164 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>Feliz Dia dos Namorados</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
-  body, html {
-    margin: 0; padding: 0; height: 100%;
-    background: linear-gradient(135deg, #ffccd5, #ffe7f0);
-    font-family: 'Montserrat', sans-serif;
-    overflow-x: hidden;
-    color: #333;
-    position: relative;
-  }
-  .container {
-    min-height: 100vh;
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-    padding: 20px;
-    text-align: center;
-    position: relative;
-    z-index: 10;
-  }
-  .intro-text {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    color: #b02e4a;
-    user-select: none;
-  }
-  .heart {
-    font-size: 5rem;
-    color: #e63946;
-    cursor: pointer;
-    animation: pulse 1.5s infinite;
-    user-select: none;
-    transition: transform 0.2s ease;
-  }
-  .heart.grow {
-    transform: scale(1.3);
-  }
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); text-shadow: 0 0 10px #e63946; }
-    50% { transform: scale(1.2); text-shadow: 0 0 20px #f94144; }
-  }
-  .message {
-    margin-top: 30px;
-    font-size: 1.3rem;
-    max-width: 90vw;
-    color: #660029;
-    line-height: 1.5;
-    min-height: 180px;
-    white-space: pre-wrap;
-    user-select: none;
-    text-shadow: 0 0 8px #d34b6b99;
-  }
-  .video-container {
-    margin-top: 30px;
-    width: 90vw;
-    max-width: 480px;
-    aspect-ratio: 16 / 9;
-    opacity: 0;
-    transition: opacity 1s ease;
-    pointer-events: none;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(230,57,70,0.5);
-  }
-  .video-container.show {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-  }
-  .repeat-btn {
-    margin-top: 20px;
-    background-color: #e63946;
-    color: white;
-    font-weight: 700;
-    border: none;
-    border-radius: 25px;
-    padding: 10px 25px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    user-select: none;
-    box-shadow: 0 4px 8px rgba(230,57,70,0.6);
-    transition: background-color 0.3s ease;
-  }
-  .repeat-btn:hover {
-    background-color: #b02633;
-  }
-  /* Particle hearts and stars */
-  .particles {
-    pointer-events: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    overflow: visible;
-    z-index: 5;
-  }
-  .particle {
-    position: absolute;
-    color: #e63946;
-    font-size: 1.5rem;
-    animation-name: floatUp;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    user-select: none;
-  }
-  .particle.star {
-    color: #f4e04d;
-    font-size: 1rem;
-    animation-duration: 6s;
-  }
-  @keyframes floatUp {
-    0% { transform: translateY(0) scale(1); opacity: 1;}
-    100% { transform: translateY(-120vh) scale(1.5); opacity: 0;}
-  }
-  /* Background gradient animation */
-  @keyframes bgGradient {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  body.animating {
-    background: linear-gradient(-45deg, #ffccd5, #ffe7f0, #f28ab2, #ff9aa2);
-    background-size: 400% 400%;
-    animation: bgGradient 15s ease infinite;
-  }
-  /* Text glow while typing */
-  .glow {
-    text-shadow:
-      0 0 5px #ff9aa2,
-      0 0 10px #ff9aa2,
-      0 0 20px #ff9aa2,
-      0 0 30px #ff9aa2;
-  }
-  /* Responsive text size */
-  @media (max-width: 480px) {
-    .intro-text {
-      font-size: 1.4rem;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pedido Especial 💖</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #ffe6f0, #ffd6e0);
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #container {
+      max-width: 90%;
+      text-align: center;
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      position: relative;
+    }
+    .hidden { display: none; }
+    .heart-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -1;
     }
     .heart {
-      font-size: 4rem;
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      transform: rotate(45deg);
+      animation: float 5s linear infinite;
     }
-    .message {
-      font-size: 1.1rem;
-      min-height: 200px;
+    .heart::before, .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: pink;
+      border-radius: 50%;
     }
-    .repeat-btn {
-      font-size: 1rem;
-      padding: 8px 20px;
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { top: 0; left: -10px; }
+    @keyframes float {
+      0% { transform: translateY(100vh) scale(1) rotate(45deg); opacity: 1; }
+      100% { transform: translateY(-10vh) scale(0.5) rotate(45deg); opacity: 0; }
     }
-  }
-  /* Popup emoji effect */
-  .popup-emoji {
-    position: fixed;
-    pointer-events: none;
-    user-select: none;
-    font-size: 2rem;
-    animation: popupMove 1.2s forwards;
-    z-index: 15;
-  }
-  @keyframes popupMove {
-    0% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
+    button {
+      padding: 10px 20px;
+      background-color: #ff5c8d;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 20px;
     }
-    100% {
-      opacity: 0;
-      transform: translateY(-60px) scale(1.5);
+    #typing {
+      font-size: 20px;
+      min-height: 60px;
+      margin-bottom: 20px;
     }
-  }
-  /* Image gallery */
-  .gallery {
-    margin-top: 25px;
-    max-width: 90vw;
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-  .gallery img {
-    border-radius: 12px;
-    width: 140px;
-    height: auto;
-    box-shadow: 0 0 10px #d34b6b99;
-    transition: transform 0.3s ease;
-    cursor: pointer;
-  }
-  .gallery img:hover {
-    transform: scale(1.1);
-  }
-</style>
+  </style>
 </head>
 <body>
-
-<div class="container" role="main" aria-label="Mensagem de Dia dos Namorados">
-
-  <div class="intro-text" id="intro-text">Para a minha princesa linda 💗</div>
-
-  <div class="heart" id="heart" role="button" aria-pressed="false" tabindex="0" aria-label="Clique para revelar a mensagem">
-    ❤️
+  <div class="heart-bg" id="hearts"></div>
+  <div id="container">
+    <h1 id="title">Oi, amor... tenho algo especial pra te mostrar 💖</h1>
+    <button onclick="start()">Começar</button>
+    <div id="typing" class="hidden"></div>
+    <div id="question" class="hidden">
+      <p>Você gosta de mim?</p>
+      <button onclick="showProposal()">Muito</button>
+      <button onclick="showProposal()">Demais</button>
+      <button onclick="showProposal()">Com certeza</button>
+    </div>
+    <div id="proposal" class="hidden">
+      <h2>Quer namorar comigo?</h2>
+      <button onclick="finalMessage()">Sim, quero!</button>
+      <button onclick="finalMessage()">Claro que sim!</button>
+    </div>
+    <div id="final" class="hidden">
+      <p>Eu sabia! Você é a melhor parte da minha vida 💘</p>
+      <button onclick="location.reload()">Ver de novo</button>
+    </div>
   </div>
 
-  <div class="message" id="message" aria-live="polite" aria-atomic="true" aria-relevant="additions"></div>
+  <audio id="bg-music" autoplay loop>
+    <source src="dragon_ball_gt_abertura.mp3" type="audio/mpeg" />
+  </audio>
 
-  <div class="video-container" id="video-container" aria-hidden="true">
-    <iframe
-      src="https://www.youtube.com/embed/yzfyRueoUrE?rel=0&autoplay=0&mute=1"
-      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-      allowfullscreen
-      title="Vídeo para Dia dos Namorados"
-      ></iframe>
-  </div>
+  <script>
+    const phrases = [
+      "Desde o dia que te conheci, o meu mundo ficou mais colorido.",
+      "Cada momento com você é único e especial.",
+      "E tem algo que eu quero muito te perguntar..."
+    ];
+    let index = 0;
+    let charIndex = 0;
+    const typingElement = document.getElementById('typing');
+    const title = document.getElementById('title');
 
-  <button class="repeat-btn" id="repeat-btn" style="display:none;" aria-label="Repetir surpresa">Repetir Surpresa</button>
+    function start() {
+      title.classList.add('hidden');
+      document.querySelector('button').classList.add('hidden');
+      typingElement.classList.remove('hidden');
+      typePhrase();
+    }
 
-  <div class="gallery" id="gallery" aria-label="Galeria de fotos românticas" style="display:none;">
-    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" alt="Foto romântica 1" />
-    <img src="https://images.unsplash.com/photo-1515377905703-c4788e51af15?auto=format&fit=crop&w=400&q=80" alt="Foto romântica 2" />
-    <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=400&q=80" alt="Foto romântica 3" />
-  </div>
-
-</div>
-
-<div class="particles" aria-hidden="true" id="particles-container"></div>
-
-<audio id="audio" src="https://cdn.pixabay.com/download/audio/2022/02/17/audio_05ee9840c6.mp3?filename=romantic-guitar-114323.mp3" preload="auto"></audio>
-
-<script>
-  const heart = document.getElementById('heart');
-  const messageEl = document.getElementById('message');
-  const videoContainer = document.getElementById('video-container');
-  const repeatBtn = document.getElementById('repeat-btn');
-  const gallery = document.getElementById('gallery');
-  const audio = document.getElementById('audio');
-  const particlesContainer = document.getElementById('particles-container');
-  const introText = document.getElementById('intro-text');
-
-  // Texto completo para mostrar linha por linha
-  const lines = [
-    "Feliz Dia dos Namorados, minha princesa linda e maravilhosa 🥰🫶🏻🩵",
-    "Às vezes fico lembrando das nossas conversas do nada kkkkkkkkkk das figurinhas de macaco de quando você tá com fome,",
-    "aí tenho que dizer que tem que comer comida de verdade e não miojo, e quando chega na escola já tá com sono kkkkkk,",
-    "ou na correria da escola pro curso e percebo como tudo isso virou parte do meu dia. Melhor coisa 🥰",
-    "Você me ganhou de um jeito que eu não sei explicar direito kkkkkkkkk e não consigo demonstrar em palavras também",
-    "o quanto eu me sinto bem perto de você ou quando estou conversando com você, gatinha 🥰🥰",
-    "Eu não preciso de muita coisa, só de você mesmo. No meu dia, na minha vida, nas minhas besteiras.",
-    "Te amo de verdade."
-  ];
-
-  let clickCount = 0;
-  const maxClicks = 10;
-  let currentLine = 0;
-  let typingInterval;
-  let isRevealed = false;
-
-  // Sons para cada clique
-  const clickSounds = [
-    '💗', '💕', '🥰', '💖', '💘', '💞', '💓', '💝', '❤️‍🔥', '💟'
-  ];
-
-  function playAudio() {
-    audio.volume = 0.4;
-    audio.loop = true;
-    audio.play();
-  }
-  function pauseAudio() {
-    audio.pause();
-    audio.currentTime = 0;
-  }
-
-  // Função para criar partículas animadas
-  function createParticle() {
-    const particle = document.createElement('div');
-    particle.classList.add('particle');
-    particle.textContent = Math.random() > 0.5 ? '❤️' : '⭐';
-    if (particle.textContent === '⭐') particle.classList.add('star');
-    particle.style.left = Math.random() * 100 + 'vw';
-    particle.style.top = '110vh';
-    particle.style.fontSize = (Math.random() * 1.5 + 0.5) + 'rem';
-    particle.style.animationDuration = (Math.random() * 5 + 4) + 's';
-    particlesContainer.appendChild(particle);
-    setTimeout(() => {
-      particle.remove();
-    }, 9000);
-  }
-  // Cria partículas a cada 400ms durante a surpresa
-  let particlesInterval;
-
-  // Popups emojis fofos
-  function popupEmoji(x, y, emoji) {
-    const popup = document.createElement('div');
-    popup.classList.add('popup-emoji');
-    popup.textContent = emoji;
-    popup.style.left = x + 'px';
-    popup.style.top = y + 'px';
-    document.body.appendChild(popup);
-    setTimeout(() => {
-      popup.remove();
-    }, 1200);
-  }
-
-  // Função de digitação linha a linha, fixando o texto
-  function typeLine(line) {
-    return new Promise((resolve) => {
-      let index = 0;
-      messageEl.classList.add('glow');
-      let lineText = '';
-      typingInterval = setInterval(() => {
-        lineText += line[index];
-        messageEl.textContent += line[index];
-        index++;
-        if (index >= line.length) {
-          clearInterval(typingInterval);
-          messageEl.textContent += '\n';
-          messageEl.classList.remove('glow');
-          resolve();
+    function typePhrase() {
+      if (index < phrases.length) {
+        if (charIndex < phrases[index].length) {
+          typingElement.innerHTML += phrases[index][charIndex];
+          charIndex++;
+          setTimeout(typePhrase, 50);
+        } else {
+          index++;
+          charIndex = 0;
+          setTimeout(() => {
+            typingElement.innerHTML = "";
+            typePhrase();
+          }, 1500);
         }
-      }, 45);
-    });
-  }
-
-  // Exibe todas as linhas uma a uma
-  async function revealMessage() {
-    if (isRevealed) return;
-    isRevealed = true;
-    document.body.classList.add('animating');
-    for (; currentLine < lines.length; currentLine++) {
-      await typeLine(lines[currentLine]);
+      } else {
+        typingElement.classList.add('hidden');
+        document.getElementById('question').classList.remove('hidden');
+      }
     }
-    showVideoAndMusic();
-    showGallery();
-    showRepeatButton();
-    startParticles();
-  }
 
-  function showVideoAndMusic() {
-    videoContainer.classList.add('show');
-    videoContainer.setAttribute('aria-hidden', 'false');
-    playAudio();
-  }
-  function showGallery() {
-    gallery.style.display = 'flex';
-  }
-  function showRepeatButton() {
-    repeatBtn.style.display = 'inline-block';
-  }
-  function startParticles() {
-    particlesInterval = setInterval(createParticle, 400);
-  }
-  function stopParticles() {
-    clearInterval(particlesInterval);
-  }
-
-  // Reseta tudo para repetir a surpresa
-  function resetSurprise() {
-    clickCount = 0;
-    currentLine = 0;
-    isRevealed = false;
-    messageEl.textContent = '';
-    videoContainer.classList.remove('show');
-    videoContainer.setAttribute('aria-hidden', 'true');
-    gallery.style.display = 'none';
-    repeatBtn.style.display = 'none';
-    document.body.classList.remove('animating');
-    stopParticles();
-    pauseAudio();
-  }
-
-  // Função para tratar cliques no coração
-  function handleHeartClick(event) {
-    if (isRevealed) return;
-    clickCount++;
-    heart.classList.add('grow');
-    setTimeout(() => heart.classList.remove('grow'), 200);
-
-    // Popups emojis na posição do clique
-    popupEmoji(event.clientX, event.clientY, clickSounds[(clickCount - 1) % clickSounds.length]);
-
-    if (clickCount >= maxClicks) {
-      revealMessage();
-      heart.setAttribute('aria-pressed', 'true');
+    function showProposal() {
+      document.getElementById('question').classList.add('hidden');
+      document.getElementById('proposal').classList.remove('hidden');
     }
-  }
 
-  heart.addEventListener('click', handleHeartClick);
-  heart.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      heart.click();
+    function finalMessage() {
+      document.getElementById('proposal').classList.add('hidden');
+      document.getElementById('final').classList.remove('hidden');
     }
-  });
 
-  repeatBtn.addEventListener('click', () => {
-    resetSurprise();
-  });
-
-</script>
-
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.top = '100vh';
+      document.getElementById('hearts').appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(createHeart, 300);
+  </script>
 </body>
 </html>
